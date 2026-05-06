@@ -29,6 +29,7 @@ func DeclareExchange(ch *amqp.Channel, name string) error {
 
 const (
 	QueueAuditTaskEvents         = "audit.task.events"
+	QueueAuditCaptchaEvents      = "audit.captcha.events"
 	QueueWelcomeUserEvents       = "welcome.user.events"
 	QueueCreditUserEvents        = "credit.user.events"
 	QueueAuthenUserEvents        = "authen.user.events"

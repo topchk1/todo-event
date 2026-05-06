@@ -1,6 +1,6 @@
 services:
   mongo:
-    image: mongo:8
+    image: cacher.odds.team/docker/mongo:8
     container_name: todoe-mongo
     restart: unless-stopped
     ports:
@@ -19,7 +19,7 @@ services:
       start_period: 20s
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: cacher.odds.team/docker/rabbitmq:3-management
     container_name: todoe-rabbitmq
     restart: unless-stopped
     ports:
@@ -34,7 +34,7 @@ services:
       retries: 5
 
   mysql:
-    image: mysql:8
+    image: cacher.odds.team/docker/mysql:8
     container_name: todoe-mysql
     restart: unless-stopped
     ports:
@@ -53,7 +53,7 @@ services:
       retries: 10
 
   loki:
-    image: grafana/loki:latest
+    image: cacher.odds.team/docker/grafana/loki:latest
     container_name: todoe-loki
     restart: unless-stopped
     ports:
@@ -61,7 +61,7 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
 
   grafana:
-    image: grafana/grafana:latest
+    image: cacher.odds.team/docker/grafana/grafana:latest
     container_name: todoe-grafana
     restart: unless-stopped
     ports:
@@ -122,8 +122,11 @@ services:
       - "3010:3010"
     environment:
       MONGO_URI: mongodb://root:root@mongo:27017
+      AMQP_URL: amqp://guest:guest@rabbitmq:5672/
     depends_on:
       mongo:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
 
 volumes:
